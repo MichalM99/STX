@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="get">
+        {{ search_form|crispy }}
+        <button class="button is-dark mt-2 mb-2" type="submit">Search</button>
+    </form>
+    <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication date</th>
+            <th>ISBN</th>
+            <th>Number of pages</th>
+            <th>Cover url</th>
+            <th>Publication language</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for result in results %}
+            <tr>
+                <td>{{ result.title }}</td>
+                <td>{{ result.author }}</td>
+                <td>{{ result.publication_date }}</td>
+                <td>{{ result.isbn }}</td>
+                <td>{{ result.number_of_pages }}</td>
+                <td><a href="{{ result.cover_url }}">Link</a></td>
+                <td>{{ result.publication_lang }}</td>
+                <td><a href="{% url 'edit_book' id=result.pk %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+            <span class="step-links">
+                <span class="current">
+                    Page {{ results.number }} z {{ results.paginator.num_pages }}
+                </span>
+
+                {% if results.has_previous %}
+                    <a class="button" href="?page=1">First</a>
+                    <a class="button" href="?page={{ results.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                {% if results.has_next %}
+                    <a class="button" href="?page={{ results.next_page_number }}">Next</a>
+                    <a class="button" href="?page={{ results.paginator.num_pages }}">Last</a>
+                {% endif %}
+            </span>
+    </div>
+
+
+
+{% endblock %}

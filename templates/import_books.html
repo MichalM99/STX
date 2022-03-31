@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="get">
+        {{ form|crispy }}
+        <button class="button is-dark mt-2 mb-2" type="submit">Show books and import to list</button>
+    </form>
+    <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication date</th>
+            <th>ISBN</th>
+            <th>Number of pages</th>
+            <th>Cover url</th>
+            <th>Publication language</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for book in results %}
+            <tr>
+                {% for header, data in book.items %}
+                    <td>{{ data|safe }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
