@@ -38,7 +38,7 @@ def get_results_from_api(response):
                 'author': item['volumeInfo']['authors'] \
                     if 'authors' in item['volumeInfo'] else "",
                 'publication_date': item['volumeInfo']['publishedDate'] \
-                    if 'publishedDate' in item['volumeInfo'] and len(item['volumeInfo']) > 4 else "",
+                    if 'publishedDate' in item['volumeInfo'] else "",
                 'isbn': item['volumeInfo']['industryIdentifiers'][0]['identifier'] \
                     if 'industryIdentifiers' in item['volumeInfo'] else "",
                 'number_of_pages': item['volumeInfo']['pageCount'] \
