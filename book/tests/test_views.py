@@ -1,11 +1,8 @@
 import pytest
 from django.test import TestCase
 from django.urls import reverse
-from factories import BookFactory
 
-from book import views
-from book.models import Book
-from BookList import settings
+from factories import BookFactory
 
 
 @pytest.mark.django_db
@@ -110,4 +107,3 @@ class TestBookListApiView(TestCase):
         author = response.data[0]['author']
         self.assertEqual(title, 'Example')
         self.assertEqual(author, 'ExampleAuthor')
-

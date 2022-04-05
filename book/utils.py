@@ -48,4 +48,3 @@ def get_results_from_api(data):
             results.append(book)
             create_book_obj(book, cover_url)
     return results
-

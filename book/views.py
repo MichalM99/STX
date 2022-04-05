@@ -119,6 +119,3 @@ def import_books(request):
         form = ImportBooksForm()
 
     return render(request, 'import_books.html', {'form': form, 'results': results})
-
-
-
