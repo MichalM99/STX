@@ -3,21 +3,21 @@ from datetime import datetime
 import requests
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import AddBookForm, ImportBooksForm, SearchBookForm
 from .models import Book
 from .serializers import BookSerializer
-from .utils import generate_api_link, get_results_from_api, create_book_obj
+from .utils import generate_api_link, get_results_from_api
 
 
 class BookListApiView(APIView):
     """
     ApiView that allows filtering through query params like:
     title, author, date_from, date_to
-    Sample: ./api?date_from=2015-01-01&date_to=2019-01-01&title=Fresh
+    Example: ./api?date_from=2015-01-01&date_to=2019-01-01&title=Fresh
     """
 
     def get(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ class BookListApiView(APIView):
 
 
 def book_list(request):
-    """View that lists books."""
+    """View that lists book."""
     search_form = SearchBookForm()
     results = []
 
@@ -79,7 +79,7 @@ def book_list(request):
 
 
 def add_book(request):
-    """View that allows adding books."""
+    """View that allows adding book."""
     if request.method == 'POST':
         form = AddBookForm(request.POST)
         if form.is_valid():
@@ -92,6 +92,7 @@ def add_book(request):
 
 
 def edit_book(request, id):
+    """View that allows editing book."""
     data = get_object_or_404(Book, pk=id)
     if request.method == "POST":
         form = AddBookForm(instance=data, data=request.POST)
@@ -105,16 +106,19 @@ def edit_book(request, id):
 
 
 def import_books(request):
-    """View that allows to import book from Google apis books"""
+    """View that allows to import book from Google apis book"""
     if 'intitle' in request.GET:
         form = ImportBooksForm(request.GET)
         if form.is_valid():
             cd = form.cleaned_data
             link = generate_api_link(cd, 10)
             response = requests.get(link)
-            results = get_results_from_api(response)
+            results = get_results_from_api(response.json())
     else:
         results = []
         form = ImportBooksForm()
 
     return render(request, 'import_books.html', {'form': form, 'results': results})
+
+
+

@@ -1,4 +1,4 @@
-from books.models import Book
+from book.models import Book
 
 
 def create_book_obj(book, cover_url):
@@ -19,16 +19,15 @@ def generate_api_link(cd, max_results):
     """Function generates correct API link with query params."""
     link = f"https://www.googleapis.com/books/v1/volumes?q="
     for key, item in cd.items():
-        if item is not '':
+        if item != '':
             link += f"+{key}:{item}"
     link += f"&maxResults={max_results}"
     return link
 
 
-def get_results_from_api(response):
-    """Function that returns data from api correctly formatted."""
+def get_results_from_api(data):
+    """Function that returns data from api in correct format."""
     results = []
-    data = response.json()
     if data['totalItems'] > 0:
         for item in data['items']:
             cover_url = item['volumeInfo']['imageLinks']['thumbnail'] \
@@ -49,3 +48,4 @@ def get_results_from_api(response):
             results.append(book)
             create_book_obj(book, cover_url)
     return results
+

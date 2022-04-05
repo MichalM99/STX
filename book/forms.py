@@ -26,7 +26,7 @@ class AddBookForm(forms.ModelForm):
 
 
 class ImportBooksForm(forms.Form):
-    """Form that serves for importing books."""
+    """Form that serves for importing book."""
     intitle = forms.CharField(label='Title', required=False)
     inauthor = forms.CharField(label='Author', required=False)
     inpublisher = forms.CharField(label='Publisher', required=False)
